@@ -40,11 +40,11 @@ export const CreateTaskModal = ({
       <div className="panel modal" onClick={(event) => event.stopPropagation()}>
         <div className="section-header">
           <div>
-            <h3>New task</h3>
-            <p>Quick input with goal and time context.</p>
+            <h3>Новая задача</h3>
+            <p>Быстрое создание задачи с привязкой к цели и проекту.</p>
           </div>
           <button className="ghost-button" onClick={onClose}>
-            Close
+            Закрыть
           </button>
         </div>
         <form
@@ -70,17 +70,17 @@ export const CreateTaskModal = ({
           }}
         >
           <label className="field">
-            <span>Title</span>
+            <span>Название</span>
             <input
               autoFocus
               className="input"
               value={title}
               onChange={(event) => setTitle(event.target.value)}
-              placeholder="Prepare weekly sprint review"
+              placeholder="Подготовить обзор спринта"
             />
           </label>
           <label className="field">
-            <span>Goal</span>
+            <span>Цель</span>
             <select
               className="input"
               value={goalId}
@@ -89,7 +89,7 @@ export const CreateTaskModal = ({
                 setProjectId('');
               }}
             >
-              <option value="">No goal</option>
+              <option value="">Без цели</option>
               {goals.map((goal) => (
                 <option key={goal.id} value={goal.id}>
                   {goal.title}
@@ -98,13 +98,13 @@ export const CreateTaskModal = ({
             </select>
           </label>
           <label className="field">
-            <span>Project</span>
+            <span>Проект</span>
             <select
               className="input"
               value={projectId}
               onChange={(event) => setProjectId(event.target.value)}
             >
-              <option value="">No project</option>
+              <option value="">Без проекта</option>
               {filteredProjects.map((project) => (
                 <option key={project.id} value={project.id}>
                   {project.title}
@@ -113,7 +113,7 @@ export const CreateTaskModal = ({
             </select>
           </label>
           <label className="field">
-            <span>Deadline</span>
+            <span>Дедлайн</span>
             <input
               className="input"
               type="date"
@@ -122,16 +122,16 @@ export const CreateTaskModal = ({
             />
           </label>
           <label className="field field-wide">
-            <span>Tags</span>
+            <span>Теги</span>
             <input
               className="input"
               value={tags}
               onChange={(event) => setTags(event.target.value)}
-              placeholder="design, mvp, client"
+              placeholder="дизайн, mvp, клиент"
             />
           </label>
           <button className="primary-button field-wide" type="submit">
-            Create task
+            Создать задачу
           </button>
         </form>
       </div>

@@ -48,6 +48,13 @@ export const TaskCard = ({
     setTags(task.tags.join(', '));
   }, [task.deadline, task.tags, task.title]);
 
+  const statusLabel =
+    task.status === 'todo'
+      ? 'к выполнению'
+      : task.status === 'in_progress'
+        ? 'в работе'
+        : 'готово';
+
   return (
     <article className={`task-card ${isTimerRunning ? 'task-card-running' : ''}`}>
       <div className="task-main">
@@ -65,14 +72,14 @@ export const TaskCard = ({
               )
             }
           >
-            {task.status.replace('_', ' ')}
+            {statusLabel}
           </button>
           <h3>{task.title}</h3>
         </div>
         <div className="task-meta">
-          <span>{goal?.title ?? 'No goal'}</span>
-          <span>{project?.title ?? 'No project'}</span>
-          <span>{task.deadline ? new Date(task.deadline).toLocaleDateString() : 'No deadline'}</span>
+          <span>{goal?.title ?? 'Без цели'}</span>
+          <span>{project?.title ?? 'Без проекта'}</span>
+          <span>{task.deadline ? new Date(task.deadline).toLocaleDateString() : 'Без дедлайна'}</span>
           <span>{formatMinutes(totalMinutes)}</span>
         </div>
         {task.tags.length > 0 ? (
@@ -91,13 +98,13 @@ export const TaskCard = ({
           className={isTimerRunning ? 'danger-button' : 'primary-button'}
           onClick={() => (isTimerRunning ? onStopTimer() : onStartTimer(task.id))}
         >
-          {isTimerRunning ? 'Stop timer' : 'Start timer'}
+          {isTimerRunning ? 'Остановить таймер' : 'Запустить таймер'}
         </button>
         <button className="ghost-button" onClick={() => setExpanded((value) => !value)}>
-          {isExpanded ? 'Hide' : 'Details'}
+          {isExpanded ? 'Скрыть' : 'Детали'}
         </button>
         <button className="ghost-button" onClick={() => onDelete(task.id)}>
-          Delete
+          Удалить
         </button>
       </div>
 
@@ -105,7 +112,7 @@ export const TaskCard = ({
         <div className="task-expanded">
           <div className="inline-grid">
             <label className="field">
-              <span>Title</span>
+              <span>Название</span>
               <input
                 className="input"
                 value={title}
@@ -114,7 +121,7 @@ export const TaskCard = ({
               />
             </label>
             <label className="field">
-              <span>Deadline</span>
+              <span>Дедлайн</span>
               <input
                 className="input"
                 type="date"
@@ -128,7 +135,7 @@ export const TaskCard = ({
               />
             </label>
             <label className="field field-wide">
-              <span>Tags</span>
+              <span>Теги</span>
               <input
                 className="input"
                 value={tags}
@@ -157,7 +164,7 @@ export const TaskCard = ({
               className="ghost-button"
               onClick={() => onAddManualTime(task.id, Number(manualMinutes))}
             >
-              Add manual time
+              Добавить время вручную
             </button>
           </div>
         </div>

@@ -117,7 +117,7 @@ export const useGoalFlowStore = create<StoreState>((set, get) => ({
         await database.saveTimeEntry(entry);
         await database.saveActiveTimer(null);
         activeTimer = null;
-        timerWarning = 'Running timer was auto-stopped after 12 hours.';
+        timerWarning = 'Активный таймер был автоматически остановлен через 12 часов.';
       }
     }
 

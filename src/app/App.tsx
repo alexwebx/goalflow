@@ -17,10 +17,10 @@ import {
 import type { AppSnapshot, TaskFilter } from '../types/models';
 
 const FILTERS: Array<{ id: TaskFilter; label: string }> = [
-  { id: 'all', label: 'All tasks' },
-  { id: 'no_goal', label: 'No goal' },
-  { id: 'over_4h', label: 'Over 4h' },
-  { id: 'week', label: 'This week' },
+  { id: 'all', label: 'Все задачи' },
+  { id: 'no_goal', label: 'Без цели' },
+  { id: 'over_4h', label: 'Больше 4 ч' },
+  { id: 'week', label: 'На этой неделе' },
 ];
 
 const Dashboard = () => {
@@ -104,13 +104,13 @@ const Dashboard = () => {
   const commands = [
     {
       id: 'new-task',
-      label: 'Create task',
+      label: 'Создать задачу',
       shortcut: 'N',
       onRun: () => setCreateTaskOpen(true),
     },
     {
       id: 'search',
-      label: 'Focus search',
+      label: 'Перейти к поиску',
       shortcut: 'Cmd/Ctrl+F',
       onRun: () => {
         const next = document.getElementById('task-search') as HTMLInputElement | null;
@@ -119,19 +119,19 @@ const Dashboard = () => {
     },
     {
       id: 'export',
-      label: 'Export JSON',
+      label: 'Экспорт JSON',
       onRun: () => {
         downloadJson('goalflow-export.json', exportJson());
       },
     },
     {
       id: 'import',
-      label: 'Import JSON',
+      label: 'Импорт JSON',
       onRun: () => fileInputRef.current?.click(),
     },
     {
       id: 'stop-timer',
-      label: 'Stop active timer',
+      label: 'Остановить активный таймер',
       onRun: () => {
         void stopTimer();
       },
@@ -139,35 +139,35 @@ const Dashboard = () => {
   ];
 
   if (!hydrated) {
-    return <div className="loading-screen">Loading GoalFlow...</div>;
+    return <div className="loading-screen">Загрузка GoalFlow...</div>;
   }
 
   return (
     <div className="app-shell">
       <header className="hero">
         <div className="hero-copy">
-          <div className="eyebrow">Goal-driven work tracker</div>
+          <div className="eyebrow">Планирование через цели</div>
           <h1>GoalFlow</h1>
           <p>
-            Tasks stay connected to goals, projects and actual time spent. No split
-            between planning and tracking.
+            Задачи связаны с целями, проектами и фактическим временем. Планирование
+            и трекинг собраны в одном приложении.
           </p>
         </div>
         <div className="hero-stats">
           <div className="stat-card">
-            <span>Total tracked</span>
+            <span>Всего учтено</span>
             <strong>{formatMinutes(totalTrackedMinutes)}</strong>
           </div>
           <div className="stat-card">
-            <span>Inbox tasks</span>
+            <span>Входящие задачи</span>
             <strong>{inboxCount}</strong>
           </div>
           <div className="stat-card">
-            <span>Running timer</span>
+            <span>Активный таймер</span>
             <strong>
               {activeTimer
                 ? formatMinutes(runningTaskExtraMinutes)
-                : 'idle'}
+                : 'нет'}
             </strong>
           </div>
         </div>
@@ -177,7 +177,7 @@ const Dashboard = () => {
         <div className="banner warning-banner">
           <span>{timerWarning}</span>
           <button className="ghost-button" onClick={dismissTimerWarning}>
-            Dismiss
+            Скрыть
           </button>
         </div>
       ) : null}
@@ -186,11 +186,11 @@ const Dashboard = () => {
         <div className="panel">
           <div className="section-header">
             <div>
-              <h2>Quick capture</h2>
-              <p>Use `N` or add a task inline.</p>
+              <h2>Быстрый ввод</h2>
+              <p>Нажми `N` или добавь задачу сразу в поле.</p>
             </div>
             <button className="primary-button" onClick={() => setCreateTaskOpen(true)}>
-              New task
+              Новая задача
             </button>
           </div>
           <form
@@ -206,24 +206,24 @@ const Dashboard = () => {
               className="input quick-task-input"
               value={quickTask}
               onChange={(event) => setQuickTask(event.target.value)}
-              placeholder="Quick task input"
+              placeholder="Быстро добавить задачу"
             />
             <button className="ghost-button" type="submit">
-              Add
+              Добавить
             </button>
           </form>
           <div className="shortcut-row">
             <button className="ghost-button" onClick={() => setCommandPaletteOpen(true)}>
-              Command palette
+              Палитра команд
             </button>
             <button
               className="ghost-button"
               onClick={() => downloadJson('goalflow-export.json', exportJson())}
             >
-              Export JSON
+              Экспорт JSON
             </button>
             <button className="ghost-button" onClick={() => fileInputRef.current?.click()}>
-              Import JSON
+              Импорт JSON
             </button>
           </div>
           <input
@@ -245,8 +245,8 @@ const Dashboard = () => {
         <div className="panel">
           <div className="section-header">
             <div>
-              <h2>Goals</h2>
-              <p>Progress is aggregated from connected tasks.</p>
+              <h2>Цели</h2>
+              <p>Прогресс считается автоматически по связанным задачам.</p>
             </div>
           </div>
           <form
@@ -262,22 +262,22 @@ const Dashboard = () => {
               className="input"
               value={goalTitle}
               onChange={(event) => setGoalTitle(event.target.value)}
-              placeholder="Launch MVP"
+              placeholder="Запустить MVP"
             />
             <button className="ghost-button" type="submit">
-              Add goal
+              Добавить цель
             </button>
           </form>
           <div className="stack-list">
             {goals.length === 0 ? (
-              <div className="empty-state">No goals yet.</div>
+              <div className="empty-state">Целей пока нет.</div>
             ) : (
               goals.map((goal) => (
                 <div key={goal.id} className="entity-row">
                   <div>
                     <strong>{goal.title}</strong>
                     <p>
-                      {selectGoalProgress(goal.id, tasks, projects)}% complete ·{' '}
+                      Готово {selectGoalProgress(goal.id, tasks, projects)}% ·{' '}
                       {formatMinutes(selectGoalMinutes(goal.id, tasks, projects, timeEntries))}
                     </p>
                   </div>
@@ -297,8 +297,8 @@ const Dashboard = () => {
         <div className="panel">
           <div className="section-header">
             <div>
-              <h2>Projects</h2>
-              <p>Nested under goals, optional for every task.</p>
+              <h2>Проекты</h2>
+              <p>Располагаются внутри целей и необязательны для задач.</p>
             </div>
           </div>
           <form
@@ -315,14 +315,14 @@ const Dashboard = () => {
               className="input"
               value={projectTitle}
               onChange={(event) => setProjectTitle(event.target.value)}
-              placeholder="Marketing site"
+              placeholder="Маркетинговый сайт"
             />
             <select
               className="input"
               value={projectGoalId}
               onChange={(event) => setProjectGoalId(event.target.value)}
             >
-              <option value="">No goal</option>
+              <option value="">Без цели</option>
               {goals.map((goal) => (
                 <option key={goal.id} value={goal.id}>
                   {goal.title}
@@ -330,19 +330,19 @@ const Dashboard = () => {
               ))}
             </select>
             <button className="ghost-button" type="submit">
-              Add project
+              Добавить проект
             </button>
           </form>
           <div className="stack-list">
             {projects.length === 0 ? (
-              <div className="empty-state">No projects yet.</div>
+              <div className="empty-state">Проектов пока нет.</div>
             ) : (
               projects.map((project) => (
                 <div key={project.id} className="entity-row">
                   <div>
                     <strong>{project.title}</strong>
                     <p>
-                      {goals.find((goal) => goal.id === project.goalId)?.title ?? 'No goal'} ·{' '}
+                      {goals.find((goal) => goal.id === project.goalId)?.title ?? 'Без цели'} ·{' '}
                       {formatMinutes(selectProjectMinutes(project.id, tasks, timeEntries))}
                     </p>
                   </div>
@@ -356,14 +356,14 @@ const Dashboard = () => {
       <section className="panel task-section">
         <div className="section-header">
           <div>
-            <h2>Tasks</h2>
-            <p>Filter by focus, effort and this week.</p>
+            <h2>Задачи</h2>
+            <p>Фильтруй список по фокусу, времени и текущей неделе.</p>
           </div>
           <div className="task-toolbar">
             <input
               id="task-search"
               className="input search-input"
-              placeholder="Search tasks"
+              placeholder="Поиск задач"
               value={search}
               onChange={(event) => setSearch(event.target.value)}
             />
@@ -382,7 +382,7 @@ const Dashboard = () => {
         </div>
         <div className="task-list">
           {visibleTasks.length === 0 ? (
-            <div className="empty-state">No tasks match the current filter.</div>
+            <div className="empty-state">Нет задач под выбранный фильтр.</div>
           ) : (
             visibleTasks.map((task) => (
               <TaskCard

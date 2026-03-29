@@ -38,7 +38,7 @@ export const CommandPalette = ({
         <input
           autoFocus
           className="input command-input"
-          placeholder="Command palette"
+          placeholder="Палитра команд"
           value={search}
           onChange={(event) => onSearchChange(event.target.value)}
         />
@@ -57,7 +57,7 @@ export const CommandPalette = ({
             </button>
           ))}
           {visibleCommands.length === 0 ? (
-            <div className="empty-state">No commands found.</div>
+            <div className="empty-state">Команды не найдены.</div>
           ) : null}
         </div>
       </div>
